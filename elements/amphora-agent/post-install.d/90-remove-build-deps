@@ -14,6 +14,7 @@ rm -rf /opt/amphora-agent
 case $DISTRO_NAME in
     ubuntu | debian )
         apt-get --assume-yes purge --auto-remove
+        [[ "$IMAGE_ELEMENT" =~ "remove-sshd" ]] && apt -y remove openssh-server || echo "by-pass as openssh-server is needed"
     ;;
     fedora | centos* | rhel* | rocky )
         YUM=${YUM:-yum}
