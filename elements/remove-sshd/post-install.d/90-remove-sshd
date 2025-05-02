@@ -1,0 +1,21 @@
+#!/bin/bash
+
+if [ ${DIB_DEBUG_TRACE:-0} -gt 0 ]; then
+    set -x
+fi
+
+set -eu
+set -o pipefail
+
+case $DISTRO_NAME in
+    ubuntu | debian )
+        [[ "$IMAGE_ELEMENT" =~ "remove-sshd" ]] && apt -y remove openssh-server
+    ;;
+    fedora | centos* | rhel* | rocky )
+        [[ "$IMAGE_ELEMENT" =~ "remove-sshd" ]] && yum -y remove openssh-server
+    ;;
+    *)
+        echo "ERROR: Unsupported distribution $DISTRO_NAME"
+        exit 1
+    ;;
+esac
